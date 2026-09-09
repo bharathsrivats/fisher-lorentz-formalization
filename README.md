@@ -17,7 +17,10 @@ equal to the squared Lorentz factor.
 
 ---
 
-## The corpus formalised here
+## The corpus
+
+The complete published, submitted and archived record this formalisation
+draws on. Peer-reviewed work first, then work under review, then preprints.
 
 ### Peer-reviewed
 
@@ -28,7 +31,8 @@ equal to the squared Lorentz factor.
 2. **Srivats, B. G.** "The Hill Coefficient as Fisher Information: An
    Information-Theoretic Identity for Allosteric Cooperativity."
    *BioSystems* **266**, 105847 (2026).
-   doi:[10.1016/j.biosystems.2026.105847](https://doi.org/10.1016/j.biosystems.2026.105847)
+   doi:[10.1016/j.biosystems.2026.105847](https://doi.org/10.1016/j.biosystems.2026.105847).
+   Data: doi:[10.17632/xftn8knz8t.1](https://doi.org/10.17632/xftn8knz8t.1)
 3. **Srivats, B. G.** "The Squared Lorentz Factor in Quantum Computation:
    Grover Search, Quantum Batteries, and the Zeno Effect."
    *Next Research* **10**, 101888 (2026).
@@ -47,40 +51,71 @@ equal to the squared Lorentz factor.
    doi:[10.5281/zenodo.20287850](https://doi.org/10.5281/zenodo.20287850)
 6. **Srivats, B. G.** "Lorentz Kinematics of Sequential Binary Qubit
    Measurements: Thomas–Wigner Composition and SLD Saturation from the
-   Fisher–Lorentz Identity."
+   Fisher–Lorentz Identity." *Journal of Mathematical Physics*.
 7. **Srivats, B. G.** "Möbius Covariance, Effect Classification, and a
    Holographic Correspondence for Qubit Fisher Information."
+   *Quantum Information Processing*.
 8. **Srivats, B. G.** "Observer Limits and Thermodynamics of Binary Quantum
-   Measurement: A Lawvere Obstruction and an Energy–Precision Bound from the
-   Fisher–Lorentz Identity."
+   Measurement: A Lawvere Obstruction and an Energy–Precision Bound."
+   *Pramana*.
 9. **Srivats, B. G.** "Fisher-Information Speed Limits: Ito, Ito–Dechant,
    Cramér–Rao and Margolus–Levitin Unified by the Squared Lorentz Factor."
+   *Fluctuation and Noise Letters*.
 10. **Srivats, B. G.** "An Information-Geometric Identity for the
     Wright–Fisher Diffusion: Genetic Drift as Inverse Fisher Information on
-    the Allele-Frequency Manifold."
+    the Allele-Frequency Manifold." *Theory in Biosciences*.
 11. **Srivats, B. G.** "Thermodynamic Consequences of the Identity
     I(V) = γ²: A Cooling-Cost Divergence Theorem and a Falsifiable
     Entropy–Visibility Law."
+12. **Srivats, B. G.** "Why Current AI Cannot Be Conscious: A Thermodynamic
+    Criterion from the Fisher–Lorentz Identity."
+    *Journal of Artificial Intelligence and Consciousness*.
+13. **Srivats, B. G.** "Discriminating Thomas–Wigner from
+    Pancharatnam–Berry Rotations." *Physica Scripta*.
 
 ### Preprints
 
-12. **Srivats, B. G.** "Fisher Information Is the Squared Lorentz Factor: Why
+14. **Srivats, B. G.** "Fisher Information Is the Squared Lorentz Factor: Why
     the Qubit Is Special." Zenodo (2026).
-    doi:[10.5281/zenodo.19363449](https://doi.org/10.5281/zenodo.19363449)
-13. **Srivats, B. G.** "The Algebra of the Qubit: Fourteen Theorems on
-    I(V) = γ²(V)." Zenodo (2026).
+    doi:[10.5281/zenodo.19363449](https://doi.org/10.5281/zenodo.19363449) ·
+    SSRN 6555718
+15. **Srivats, B. G.** "The Algebra of the Qubit: Fourteen Theorems on
+    I(V) = γ²(V)." v2, Zenodo (2026).
     doi:[10.5281/zenodo.19653530](https://doi.org/10.5281/zenodo.19653530)
-14. **Srivats, B. G.** "From Measurement to Reality: I(V) = γ²(V) and the
-    Geometry of Binary Distinction." Zenodo (2026).
-    doi:[10.5281/zenodo.19486140](https://doi.org/10.5281/zenodo.19486140)
-15. **Srivats, B. G.** "The Lorentz Factor in Binary Classification: Natural
+16. **Srivats, B. G.** "From Measurement to Reality: I(V) = γ²(V) and the
+    Geometry of Binary Distinction." v4, Zenodo (2026).
+    doi:[10.5281/zenodo.19722019](https://doi.org/10.5281/zenodo.19722019) ·
+    SSRN 6512663
+17. **Srivats, B. G.** "The Squared Lorentz Factor in Quantum Computation."
+    SSRN 6624079. doi:[10.2139/ssrn.6624079](https://doi.org/10.2139/ssrn.6624079)
+18. **Srivats, B. G.** "The Hill Coefficient as Fisher Information:
+    Allosteric Cooperativity." SSRN 6553826
+19. **Srivats, B. G.** "Why Current AI Cannot Be Conscious: A Thermodynamic
+    Criterion." Zenodo (2026).
+    doi:[10.5281/zenodo.19489276](https://doi.org/10.5281/zenodo.19489276) ·
+    SSRN 6555758
+20. **Srivats, B. G.** "The Lorentz Factor in Binary Classification: Natural
     Gradient Descent and the Fisher–Lorentz Identity." Zenodo (2026).
     doi:[10.5281/zenodo.19722237](https://doi.org/10.5281/zenodo.19722237)
-16. **Srivats, B. G.** "Why Current AI Cannot Be Conscious: A Thermodynamic
-    Criterion from the Fisher–Lorentz Identity." Zenodo (2026).
-    doi:[10.5281/zenodo.19489276](https://doi.org/10.5281/zenodo.19489276)
+21. **Srivats, B. G.** "Discriminating Thomas–Wigner from Pancharatnam–Berry
+    Rotations." Zenodo (2026).
+    doi:[10.5281/zenodo.19722698](https://doi.org/10.5281/zenodo.19722698)
+22. **Srivats, B. G.** "Theory of Reality: How One Measurement Identity
+    Connects Seventy Domains." Zenodo (2026). *Speculative tier; cited for
+    completeness. No result in this repository depends on it.*
 
----
+### External results relied upon
+
+- J. Dittmann. "The Scalar Curvature of the Bures Metric on the Space of
+  Density Matrices." *J. Geom. Phys.* **31** (1999) 16–24.
+  arXiv:quant-ph/9810012. *(Corollary 1 gives the Bures sectional curvature
+  in general form; the `N ≥ 3` obstruction rests on it.)*
+- A. Uhlmann; M. Hübner. Bures metric as one quarter the round `S³` metric on
+  the qubit Bloch ball.
+- A. A. Ungar; J. Chen. Gyrovector structure of the Bloch ball; the gamma
+  identity of the Einstein gyrogroup underlies the Möbius covariance result.
+- F. Nielsen. "A note on some information-theoretic divergences between Zeta
+  distributions." arXiv:2104.10548.
 
 ## What is machine-checked, module by module
 
@@ -286,10 +321,13 @@ Mathlib cache is ~7.5 GB; build outside any synced folder.
 
 ## A note on the DOIs
 
-Reference 13 appears in the source corpus under two Zenodo DOIs,
-`10.5281/zenodo.19653530` and `10.5281/zenodo.19639617`. The former is used
-here. This has not been reconciled against the live Zenodo record and should
-be confirmed.
+Reference 15 appears elsewhere in the source corpus under a second Zenodo DOI,
+`10.5281/zenodo.19639617`. The author's own publication dashboard assigns
+`10.5281/zenodo.19653530`, which is used here.
+
+Two further DOIs appear in older corpus documents and are **superseded**:
+`10.5281/zenodo.18870607` and `10.5281/zenodo.18949072`, both earlier
+versions of reference 14. The current anchor DOI is `10.5281/zenodo.19363449`.
 
 ## Licence
 
