@@ -1,0 +1,22 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build
+        run: lake build
+      - name: Audit gate - no sorry in any proof
+        run: |
+          if grep -rnE '\bsorry\b|sorryAx|^axiom |native_decide' FisherLorentz/*.lean \
+             | grep -v -- '--' | grep -vi 'NOT proven'; then
+            echo "AUDIT FAILED: sorry or axiom found in a proof"; exit 1
+          fi
+          echo "AUDIT PASSED: no sorry in any proof"
