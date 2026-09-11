@@ -47,8 +47,7 @@ draws on. Peer-reviewed work first, then work under review, then preprints.
 
 5. **Srivats, B. G.** "A Modular Speed Limit on the Qubit: Bloch Precession,
    Saturation, Channel Data-Processing, and the Vanishing of Modular Flow at
-   Pure States." Verification code and data:
-   doi:[10.5281/zenodo.20287850](https://doi.org/10.5281/zenodo.20287850)
+   Pure States." Preprint and verification material: reference 23.
 6. **Srivats, B. G.** "Lorentz Kinematics of Sequential Binary Qubit
    Measurements: Thomas–Wigner Composition and SLD Saturation from the
    Fisher–Lorentz Identity." *Journal of Mathematical Physics*.
@@ -75,34 +74,64 @@ draws on. Peer-reviewed work first, then work under review, then preprints.
 
 ### Preprints
 
+Every Zenodo entry gives the version-independent **concept DOI** (it always
+resolves to the latest version) and the **version DOI** cited by this
+repository. Version chains were read from the Zenodo REST API on 2026-09-10;
+SSRN DOIs were checked to resolve. The full chains are tabulated under
+"A note on the DOIs" below.
+
 14. **Srivats, B. G.** "Fisher Information Is the Squared Lorentz Factor: Why
-    the Qubit Is Special." Zenodo (2026).
-    doi:[10.5281/zenodo.19363449](https://doi.org/10.5281/zenodo.19363449) ·
-    SSRN 6555718
+    the Qubit Is Special." Zenodo, v2.1 (2026-03-31).
+    Concept doi:[10.5281/zenodo.18870606](https://doi.org/10.5281/zenodo.18870606) ·
+    Version doi:[10.5281/zenodo.19363449](https://doi.org/10.5281/zenodo.19363449) ·
+    SSRN doi:[10.2139/ssrn.6555718](https://doi.org/10.2139/ssrn.6555718)
 15. **Srivats, B. G.** "The Algebra of the Qubit: Fourteen Theorems on
-    I(V) = γ²(V)." v2, Zenodo (2026).
-    doi:[10.5281/zenodo.19653530](https://doi.org/10.5281/zenodo.19653530)
+    I(V) = γ²(V)." Zenodo, v2 (2026-04-19).
+    Concept doi:[10.5281/zenodo.19639616](https://doi.org/10.5281/zenodo.19639616) ·
+    Version doi:[10.5281/zenodo.19653530](https://doi.org/10.5281/zenodo.19653530)
 16. **Srivats, B. G.** "From Measurement to Reality: I(V) = γ²(V) and the
-    Geometry of Binary Distinction." v4, Zenodo (2026).
-    doi:[10.5281/zenodo.19722019](https://doi.org/10.5281/zenodo.19722019) ·
-    SSRN 6512663
-17. **Srivats, B. G.** "The Squared Lorentz Factor in Quantum Computation."
-    SSRN 6624079. doi:[10.2139/ssrn.6624079](https://doi.org/10.2139/ssrn.6624079)
-18. **Srivats, B. G.** "The Hill Coefficient as Fisher Information:
-    Allosteric Cooperativity." SSRN 6553826
+    Geometry of Binary Distinction." Zenodo, v4 (2026-04-23).
+    Concept doi:[10.5281/zenodo.19388803](https://doi.org/10.5281/zenodo.19388803) ·
+    Version doi:[10.5281/zenodo.19722019](https://doi.org/10.5281/zenodo.19722019) ·
+    SSRN doi:[10.2139/ssrn.6512663](https://doi.org/10.2139/ssrn.6512663)
+17. **Srivats, B. G.** "The Squared Lorentz Factor in Quantum Computation:
+    Grover Search, Quantum Batteries, and the Zeno Effect." SSRN (2026).
+    doi:[10.2139/ssrn.6624079](https://doi.org/10.2139/ssrn.6624079).
+    Preprint of reference 3.
+18. **Srivats, B. G.** "The Hill Coefficient as Fisher Information: An
+    Information-Theoretic Identity for Allosteric Cooperativity." SSRN (2026).
+    doi:[10.2139/ssrn.6553826](https://doi.org/10.2139/ssrn.6553826).
+    Preprint of reference 2.
 19. **Srivats, B. G.** "Why Current AI Cannot Be Conscious: A Thermodynamic
-    Criterion." Zenodo (2026).
-    doi:[10.5281/zenodo.19489276](https://doi.org/10.5281/zenodo.19489276) ·
-    SSRN 6555758
+    Criterion from the Fisher–Lorentz Identity." Zenodo, v1.1 (2026-04-09).
+    Concept doi:[10.5281/zenodo.19486629](https://doi.org/10.5281/zenodo.19486629) ·
+    Version doi:[10.5281/zenodo.19489276](https://doi.org/10.5281/zenodo.19489276) ·
+    SSRN doi:[10.2139/ssrn.6555758](https://doi.org/10.2139/ssrn.6555758).
+    Preprint of reference 12.
 20. **Srivats, B. G.** "The Lorentz Factor in Binary Classification: Natural
-    Gradient Descent and the Fisher–Lorentz Identity." Zenodo (2026).
-    doi:[10.5281/zenodo.19722237](https://doi.org/10.5281/zenodo.19722237)
+    Gradient Descent and the Fisher–Lorentz Identity." Zenodo, v1 (2026-04-23).
+    Concept doi:[10.5281/zenodo.19722236](https://doi.org/10.5281/zenodo.19722236) ·
+    Version doi:[10.5281/zenodo.19722237](https://doi.org/10.5281/zenodo.19722237)
 21. **Srivats, B. G.** "Discriminating Thomas–Wigner from Pancharatnam–Berry
-    Rotations." Zenodo (2026).
-    doi:[10.5281/zenodo.19722698](https://doi.org/10.5281/zenodo.19722698)
-22. **Srivats, B. G.** "Theory of Reality: How One Measurement Identity
-    Connects Seventy Domains." Zenodo (2026). *Speculative tier; cited for
-    completeness. No result in this repository depends on it.*
+    Rotations in Sequential Weak Qubit Measurements: A Variable-Visibility
+    Protocol." Zenodo, v1 (2026-04-23).
+    Concept doi:[10.5281/zenodo.19722697](https://doi.org/10.5281/zenodo.19722697) ·
+    Version doi:[10.5281/zenodo.19722698](https://doi.org/10.5281/zenodo.19722698).
+    Preprint of reference 13. The discrimination claim and the V = 0.9102
+    crossing in this protocol were later withdrawn by the author; see
+    `ThomasWigner.lean` for what is machine-checked.
+22. **Srivats, B. G.** "Theory of Reality: From Binary Distinction to the
+    Structure of Existence." Zenodo (2026-05-21).
+    Concept doi:[10.5281/zenodo.20321417](https://doi.org/10.5281/zenodo.20321417) ·
+    Version doi:[10.5281/zenodo.20321418](https://doi.org/10.5281/zenodo.20321418).
+    *Speculative tier; cited for completeness. No result in this repository
+    depends on it.*
+23. **Srivats, B. G.** "A Modular Speed Limit on the Qubit: Bloch Precession,
+    Saturation, Channel Data-Processing, and the Vanishing of Modular Flow at
+    Pure States." Zenodo, v1.1 (2026-05-19).
+    Concept doi:[10.5281/zenodo.20245544](https://doi.org/10.5281/zenodo.20245544) ·
+    Version doi:[10.5281/zenodo.20287850](https://doi.org/10.5281/zenodo.20287850).
+    Preprint of reference 5.
 
 ### External results relied upon
 
@@ -321,13 +350,25 @@ Mathlib cache is ~7.5 GB; build outside any synced folder.
 
 ## A note on the DOIs
 
-Reference 15 appears elsewhere in the source corpus under a second Zenodo DOI,
-`10.5281/zenodo.19639617`. The author's own publication dashboard assigns
-`10.5281/zenodo.19653530`, which is used here.
+Zenodo assigns one concept DOI per record and a fresh DOI to every version.
+The chains below were read from the Zenodo REST API on 2026-09-10. The bold
+entry is the version cited in this README; every other DOI in the chain
+appears somewhere in the source corpus and resolves to an earlier version of
+the same record.
 
-Two further DOIs appear in older corpus documents and are **superseded**:
-`10.5281/zenodo.18870607` and `10.5281/zenodo.18949072`, both earlier
-versions of reference 14. The current anchor DOI is `10.5281/zenodo.19363449`.
+| Ref | Concept DOI | Versions, oldest to newest (date) |
+|---|---|---|
+| 14 | 10.5281/zenodo.18870606 | 18870607 v1.0 (2026-03-04), 18949072 (2026-03-10), **19363449** v2.1 (2026-03-31) |
+| 15 | 10.5281/zenodo.19639616 | 19639617 v1 (2026-04-18), **19653530** v2 (2026-04-19) |
+| 16 | 10.5281/zenodo.19388803 | 19388804 v1.0 (2026-04-02), 19394102 v1.1 (2026-04-02), 19486140 v2 (2026-04-09), 19545786 v3 (2026-04-12), **19722019** v4 (2026-04-23) |
+| 19 | 10.5281/zenodo.19486629 | 19486630 v1 (2026-04-09), **19489276** v1.1 (2026-04-09) |
+| 20 | 10.5281/zenodo.19722236 | **19722237** v1 (2026-04-23) |
+| 21 | 10.5281/zenodo.19722697 | **19722698** v1 (2026-04-23) |
+| 22 | 10.5281/zenodo.20321417 | **20321418** (2026-05-21) |
+| 23 | 10.5281/zenodo.20245544 | 20245545 v1.0 (2026-05-16), **20287850** v1.1 (2026-05-19) |
+
+Cite the concept DOI when the latest version is wanted and the version DOI
+when the exact text matters.
 
 ## Licence
 
