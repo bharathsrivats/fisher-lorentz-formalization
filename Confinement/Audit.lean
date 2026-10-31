@@ -1,8 +1,8 @@
 /-
 Copyright (c) 2026 Bharath G. Srivats. Released under Apache 2.0.
 
-The audit of the confinement library. The build fails if any theorem under `Confinement` uses an
-axiom other than `propext`, `Classical.choice` and `Quot.sound`.
+The audit of the confinement library. The build fails if any theorem under `Confinement` depends
+on anything beyond `propext`, `Classical.choice` and `Quot.sound`.
 -/
 import Confinement.AreaLaw
 import Confinement.GaugeInvariance

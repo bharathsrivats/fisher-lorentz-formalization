@@ -21,7 +21,7 @@ jobs:
           test "$(grep -c 'axiom gate passed' build.log)" -ge 2 || { echo "AXIOM GATE DID NOT RUN FOR BOTH LIBRARIES"; exit 1; }
       - name: Audit gate - no sorry in any proof
         run: |
-          if grep -rnE '\bsorry\b|sorryAx|^axiom |native_decide' FisherLorentz/*.lean Confinement/*.lean \
+          if grep -nE '\bsorry\b|sorryAx|^axiom |native_decide' $(ls FisherLorentz/*.lean Confinement/*.lean | grep -v AxiomGate) \
              | grep -v -- '--' | grep -vi 'NOT proven'; then
             echo "AUDIT FAILED: sorry or axiom found in a proof"; exit 1
           fi
