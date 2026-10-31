@@ -141,6 +141,18 @@ theorem area_law_SU {n L Lt R T : ℕ} [NeZero L] [NeZero Lt] (hN : 2 ≤ N) (hL
   area_law_general measurable_normTr (normTr_le (by omega)) (centre_comm hN) (omega_ne_one hN)
     (normTr_centre_mul hN) hL hR hT x t₀ μ βW hq
 
+/-- **Polyakov loop correlators for `SU(N)`, every temporal extent.** -/
+theorem polyakov_SU {n L Lt R : ℕ} [NeZero L] [NeZero Lt] (hN : 2 ≤ N) (hL : 3 ≤ L)
+    (hR : R ≤ L / 2) (x : Space n L) (μ : Fin n) (βW : ℝ)
+    (hq : 2 * (n : ℝ) * (1 - Real.exp (-(2 * |βW|))) < 1) :
+    ‖gibbs (haarSU N) normTr βW
+        (fun U : Link n L Lt → SU N => normTr (polyakov U x) *
+          (starRingEnd ℂ) (normTr (polyakov U (x + (R : ZMod L) • (e μ : Space n L)))))‖
+      ≤ ((2 * (n : ℝ) * (1 - Real.exp (-(2 * |βW|)))) ^ R /
+          (1 - 2 * (n : ℝ) * (1 - Real.exp (-(2 * |βW|))))) ^ Lt :=
+  polyakov_general measurable_normTr (normTr_le (by omega)) (centre_comm hN) (omega_ne_one hN)
+    (normTr_centre_mul hN) hL hR x μ βW hq
+
 /-- The same bound in the closed window `4 n |β_W| < 1`, that is `|β_W| < 1 / (4 (d - 1))`. -/
 theorem area_law_SU_window {n L Lt R T : ℕ} [NeZero L] [NeZero Lt] (hN : 2 ≤ N) (hL : 3 ≤ L)
     (hR : R ≤ L / 2) (hT : T ≤ Lt) (x : Space n L) (t₀ : ZMod Lt) (μ : Fin n) (βW : ℝ)

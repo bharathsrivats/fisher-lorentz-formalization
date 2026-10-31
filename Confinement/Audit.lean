@@ -10,7 +10,10 @@ import Confinement.SpecialUnitary
 import FisherLorentz.AxiomGate
 
 #print axioms Confinement.expansion_bound
-#print axioms Confinement.term_vanish
+#print axioms Confinement.term_vanish_general
+#print axioms Confinement.slab_law
+#print axioms Confinement.polyakov_general
+#print axioms Confinement.polyakov_SU
 #print axioms Confinement.area_law_general
 #print axioms Confinement.area_law_SU
 #print axioms Confinement.area_law_SU_window

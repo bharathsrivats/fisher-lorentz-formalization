@@ -8,7 +8,7 @@ Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Two 
   corpus.
 
 **Zero `sorry`.** The build itself fails unless every theorem, in both libraries, depends only on
-the three standard axioms of Lean's logic (388 theorems at this commit, the auxiliary lemmas
+the three standard axioms of Lean's logic (393 theorems at this commit, the auxiliary lemmas
 included).
 
 ## Wilson's area law, machine-checked
@@ -30,6 +30,8 @@ with string tension at least `σ = -log (4 (d - 1) |β_W|) > 0`. `area_law_gener
 for **any** group with a probability measure invariant under a central element `z` and a bounded
 function `χ` with `χ (z g) = ζ χ (g)`, `ζ ≠ 1`.
 
+`polyakov_SU` gives the same decay for Polyakov loop correlators at **every temporal extent** `Lₜ`, so the window contains no deconfined phase at any temperature.
+
 **The proof** is one page and uses no analysis. Each vertical plaquette weight is a constant times
 `1 + h` with `0 ≤ h ≤ p (1 + h)`, `p = 1 - exp (-2 |β_W|)`. Expand over sets `A` of vertical
 plaquettes. If `A` does not join the two sides of the loop in some slab, multiplying the vertical
@@ -44,8 +46,8 @@ pointwise bound counts them.
 | `Confinement/GaugeInvariance.lean` | Plaquettes and the rectangle conjugate under gauge transformations, so the loop closes |
 | `Confinement/Bonds.lean` | Slab graphs, lifted paths, walk counting, displacement bound on the torus |
 | `Confinement/Twist.lean` | The centre twist and its measure invariance |
-| `Confinement/AreaLaw.lean` | `term_vanish`, `area_law_general` |
-| `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `partition_pos` |
+| `Confinement/AreaLaw.lean` | `term_vanish_general`, `slab_law`, `area_law_general`, `polyakov_general` |
+| `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `polyakov_SU`, `partition_pos` |
 | `Confinement/Audit.lean` | `#print axioms` on the headline results, and the axiom gate |
 
 **How to trust it.** The definitions are the short file `Lattice.lean`. `rectangle_gauge`,
@@ -412,7 +414,7 @@ No claim is made about any of these.
 A Lean file can compile with `sorry` in it, so a successful build proves
 nothing unless the build itself checks axioms. This one does.
 
-`Confinement/Audit.lean` does the same for the confinement library (172 theorems).
+`Confinement/Audit.lean` does the same for the confinement library (177 theorems).
 `FisherLorentz/Audit.lean` runs `#print axioms` on all 82 named results, for a
 readable record, and ends with `#assert_standard_axioms_in FisherLorentz`
 (defined in `FisherLorentz/AxiomGate.lean`). That command walks every theorem

@@ -141,20 +141,21 @@ variable {μ₀ : Measure G} [IsProbabilityMeasure μ₀] [μ₀.IsMulLeftInvari
 variable {χ : G → ℂ} (hχm : Measurable χ) (hχ : ∀ g, ‖χ g‖ ≤ 1)
 variable {z : G} (hz : ∀ g : G, z * g = g * z) {ζ : ℂ} (hζ : ζ ≠ 1) (hχz : ∀ g, χ (z * g) = ζ * χ g)
 
-include hχm hz hζ hχz in
-/-- **The centre twist kills every bad term.** If `A` does not join the two sides of the loop in
-slab `t₀ + i₀`, its term vanishes. -/
-theorem term_vanish (hL : 3 ≤ L) {T i₀ : ℕ} (hT : T ≤ Lt) (hi : i₀ < T) (x : Space n L)
-    (t₀ : ZMod Lt) (μ : Fin n) (R : ℕ) (J : ℝ) (A : Finset (VP n L Lt))
-    (hnr : ¬ (bondGraph A (t₀ + (i₀ : ZMod Lt))).Reachable x (x + (R : ZMod L) • (e μ : Space n L))) :
-    ∫ U, χ (rectangle U x t₀ μ R T) *
-        ((Hwt χ J U * ∏ p ∈ A, hP χ J p U : ℝ) : ℂ) ∂(linkMeasure μ₀) = 0 := by
+include hχm hz hζ in
+/-- **The centre twist kills every bad term.** Let `W` pick up `ζ` under the twist of slab `t` over
+any set containing `x` and missing `y`. If `A` does not join `x` to `y` in slab `t`, its term
+vanishes. -/
+theorem term_vanish_general (hL : 3 ≤ L) (x y : Space n L) (t : ZMod Lt)
+    (W : (Link n L Lt → G) → ℂ) (hWm : Measurable W)
+    (hWtw : ∀ (C : Set (Space n L)) (U : Link n L Lt → G), x ∈ C → y ∉ C →
+      W (twist z C t U) = ζ * W U)
+    (J : ℝ) (A : Finset (VP n L Lt)) (hnr : ¬ (bondGraph A t).Reachable x y) :
+    ∫ U, W U * ((Hwt χ J U * ∏ p ∈ A, hP χ J p U : ℝ) : ℂ) ∂(linkMeasure μ₀) = 0 := by
   classical
-  set t := t₀ + (i₀ : ZMod Lt) with ht
   set C : Set (Space n L) := {v | (bondGraph A t).Reachable x v} with hC
   have hxC : x ∈ C := SimpleGraph.Reachable.refl x
-  have hyC : x + (R : ZMod L) • (e μ : Space n L) ∉ C := hnr
-  set g : (Link n L Lt → G) → ℂ := fun U => χ (rectangle U x t₀ μ R T) *
+  have hyC : y ∉ C := hnr
+  set g : (Link n L Lt → G) → ℂ := fun U => W U *
         ((Hwt χ J U * ∏ p ∈ A, hP χ J p U : ℝ) : ℂ) with hg
   -- the integrand transforms by the central character
   have hinv : ∀ U, g (twist z C t U) = ζ * g U := by
@@ -176,12 +177,11 @@ theorem term_vanish (hL : 3 ≤ L) {T i₀ : ℕ} (hT : T ≤ Lt) (hi : i₀ < T
     have hprod : ∏ p ∈ A, hP χ J p (twist z C t U) = ∏ p ∈ A, hP χ J p U :=
       Finset.prod_congr rfl hp
     simp only [hg, hH, hprod]
-    rw [rectangle_twist hz hT hi C t₀ U μ hxC hyC, hχz]
+    rw [hWtw C U hxC hyC]
     ring
   -- `g` is measurable
   have hgm : Measurable g := by
-    refine (hχm.comp (measurable_rectangle x t₀ μ R T)).mul
-      (Complex.measurable_ofReal.comp ?_)
+    refine hWm.mul (Complex.measurable_ofReal.comp ?_)
     exact (measurable_Hwt hχm J).mul
       (Finset.measurable_prod _ fun p _ => measurable_hP hχm J p)
   -- change of variables
@@ -198,15 +198,18 @@ theorem term_vanish (hL : 3 ≤ L) {T i₀ : ℕ} (hT : T ≤ Lt) (hi : i₀ < T
   exact (mul_eq_zero.mp h1).resolve_left (sub_ne_zero.mpr hζ.symm)
 
 set_option maxHeartbeats 1600000 in
-include hχm hχ hz hζ hχz in
-/-- **Wilson's area law, general form.** Let `G` carry a probability measure invariant under a
-central element `z`, and `χ` a function bounded by one with `χ (z g) = ζ χ g`, `ζ ≠ 1`. Let
-`p = 1 - exp (-2 |J|)` and `2 n p < 1`. For the `R × T` rectangle, `R ≤ L / 2`, `T ≤ Lₜ`,
-`‖⟨χ(Q_ℓ)⟩‖ ≤ ((2 n p) ^ R / (1 - 2 n p)) ^ T`. -/
-theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T ≤ Lt)
-    (x : Space n L) (t₀ : ZMod Lt) (μ : Fin n) (J : ℝ)
-    (hq : 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))) < 1) :
-    ‖gibbs μ₀ χ J (fun U : Link n L Lt → G => χ (rectangle U x t₀ μ R T))‖
+include hχm hχ hz hζ in
+/-- **The slab law.** Let `W` be bounded by one and pick up `ζ` under the twist of each of the
+`T ≤ Lₜ` slabs `t₀ + i`, over any set containing `x` and missing `y`. If every path from `x` to `y`
+has length at least `R`, and `2 n p < 1` with `p = 1 - exp (-2 |J|)`, then
+`‖⟨W⟩‖ ≤ ((2 n p) ^ R / (1 - 2 n p)) ^ T`. -/
+theorem slab_law (hL : 3 ≤ L) {R T : ℕ} (hT : T ≤ Lt) (x y : Space n L) (t₀ : ZMod Lt)
+    (hlen : ∀ γ : (torusGraph n L).Path x y, R ≤ (γ : (torusGraph n L).Walk x y).length)
+    (W : (Link n L Lt → G) → ℂ) (hWm : Measurable W) (hWb : ∀ U, ‖W U‖ ≤ 1)
+    (hWtw : ∀ i : Fin T, ∀ (C : Set (Space n L)) (U : Link n L Lt → G), x ∈ C → y ∉ C →
+      W (twist z C (t₀ + ((i : ℕ) : ZMod Lt)) U) = ζ * W U)
+    (J : ℝ) (hq : 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))) < 1) :
+    ‖gibbs μ₀ χ J W‖
       ≤ ((2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|)))) ^ R /
           (1 - 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))))) ^ T := by
   classical
@@ -217,7 +220,6 @@ theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T �
   have hp1 : p ≤ 1 := by
     have := Real.exp_pos (-(2 * |J|))
     linarith
-  set y : Space n L := x + (R : ZMod L) • (e μ : Space n L) with hy
   set P : Finset (VP n L Lt) := Finset.univ with hP'
   -- the slabs and the lifted paths
   let slab : Fin T → ZMod Lt := fun i => t₀ + ((i : ℕ) : ZMod Lt)
@@ -249,11 +251,11 @@ theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T �
   -- the expansion bound
   have hbound := expansion_bound (ν := linkMeasure (n := n) (L := L) (Lt := Lt) μ₀) P S
     (fun _ => Finset.subset_univ _) (fun p U => hP χ J p U) (Hwt χ J)
-    (fun U => χ (rectangle U x t₀ μ R T)) (p := p) (M := Real.exp (2 * |J|) - 1) (C := CH)
+    W (p := p) (M := Real.exp (2 * |J|) - 1) (C := CH)
     (fun i _ => measurable_hP hχm J i) (measurable_Hwt hχm J)
-    (hχm.comp (measurable_rectangle x t₀ μ R T))
+    hWm
     (fun i _ U => hP_nonneg hχ J i U) (fun i _ U => hP_le hχ J i U)
-    (fun i _ U => hP_le_mul hχ J i U) (fun U => (Real.exp_pos _).le) hHle (fun U => hχ _)
+    (fun i _ U => hP_le_mul hχ J i U) (fun U => (Real.exp_pos _).le) hHle hWb
     (by
       intro A _
       by_cases hall : ∀ i : Fin T, (bondGraph A (slab i)).Reachable x y
@@ -273,10 +275,8 @@ theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T �
         exact hf i hi
       · right
         obtain ⟨i, hi⟩ := not_forall.mp hall
-        exact term_vanish hχm hz hζ hχz hL hT i.2 x t₀ μ R J A hi)
+        exact term_vanish_general hχm hz hζ hL x y (slab i) W hWm (hWtw i) J A hi)
   -- the sum over families of paths factorises
-  have hlen : ∀ γ : (torusGraph n L).Path x y, R ≤ (γ : (torusGraph n L).Walk x y).length :=
-    fun γ => length_ge hL μ x hR γ
   have hS : ∑ f, p ^ (S f).card ≤ ((2 * (n : ℝ) * p) ^ R / (1 - 2 * (n : ℝ) * p)) ^ T := by
     have hterm : ∀ f : Fin T → (torusGraph n L).Path x y,
         p ^ (S f).card ≤ ∏ i, p ^ ((f i : (torusGraph n L).Path x y) :
@@ -323,9 +323,9 @@ theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T �
   have hden : ∫ U, wilsonWeight χ J U ∂(linkMeasure (n := n) (L := L) (Lt := Lt) μ₀) = c * Z := by
     simp_rw [hweight]
     exact integral_const_mul _ _
-  have hnum : ∫ U : Link n L Lt → G, χ (rectangle U x t₀ μ R T) * ((wilsonWeight χ J U : ℝ) : ℂ)
+  have hnum : ∫ U : Link n L Lt → G, W U * ((wilsonWeight χ J U : ℝ) : ℂ)
         ∂(linkMeasure μ₀)
-      = (c : ℂ) * ∫ U, χ (rectangle U x t₀ μ R T) *
+      = (c : ℂ) * ∫ U, W U *
         ((Hwt χ J U * ∏ q ∈ P, (1 + hP χ J q U) : ℝ) : ℂ) ∂(linkMeasure μ₀) := by
     rw [← integral_const_mul]
     congr 1
@@ -345,6 +345,52 @@ theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T �
     rw [div_le_iff₀ (mul_pos hc0 hZpos)]
     have := hbound.trans (mul_le_mul_of_nonneg_right hS hZ0)
     nlinarith [mul_le_mul_of_nonneg_left this hc0.le]
+
+include hχm hχ hz hζ hχz in
+/-- **Wilson's area law, general form.** Let `G` carry a probability measure invariant under a
+central element `z`, and `χ` a function bounded by one with `χ (z g) = ζ χ g`, `ζ ≠ 1`. Let
+`p = 1 - exp (-2 |J|)` and `2 n p < 1`. For the `R × T` rectangle, `R ≤ L / 2`, `T ≤ Lₜ`,
+`‖⟨χ(Q_ℓ)⟩‖ ≤ ((2 n p) ^ R / (1 - 2 n p)) ^ T`. -/
+theorem area_law_general (hL : 3 ≤ L) {R T : ℕ} (hR : R ≤ L / 2) (hT : T ≤ Lt)
+    (x : Space n L) (t₀ : ZMod Lt) (μ : Fin n) (J : ℝ)
+    (hq : 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))) < 1) :
+    ‖gibbs μ₀ χ J (fun U : Link n L Lt → G => χ (rectangle U x t₀ μ R T))‖
+      ≤ ((2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|)))) ^ R /
+          (1 - 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))))) ^ T :=
+  slab_law hχm hχ hz hζ hL hT x (x + (R : ZMod L) • (e μ : Space n L)) t₀
+    (fun γ => length_ge hL μ x hR γ) (fun U : Link n L Lt → G => χ (rectangle U x t₀ μ R T))
+    (hχm.comp (measurable_rectangle x t₀ μ R T)) (fun _ => hχ _)
+    (fun i C U hx hy => by
+      show χ (rectangle (twist z C (t₀ + ((i : ℕ) : ZMod Lt)) U) x t₀ μ R T) = _
+      rw [rectangle_twist hz hT i.2 C t₀ U μ hx hy, hχz]) J hq
+
+/-- The Polyakov line at `x`: the ordered product of the vertical links around the time circle. -/
+def polyakov (U : Link n L Lt → G) (x : Space n L) : G := vline U x 0 Lt
+
+include hχm hχ hz hζ hχz in
+/-- **Polyakov loop correlators decay, for every temporal extent `Lₜ`.** For `x` and
+`y = x + R e μ`, `R ≤ L / 2`, `‖⟨χ(P_x) conj χ(P_y)⟩‖ ≤ ((2 n p) ^ R / (1 - 2 n p)) ^ Lₜ`. So there
+is no deconfined phase in the window, at any temperature. -/
+theorem polyakov_general (hL : 3 ≤ L) {R : ℕ} (hR : R ≤ L / 2) (x : Space n L) (μ : Fin n) (J : ℝ)
+    (hq : 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))) < 1) :
+    ‖gibbs μ₀ χ J (fun U : Link n L Lt → G => χ (polyakov U x) *
+        (starRingEnd ℂ) (χ (polyakov U (x + (R : ZMod L) • (e μ : Space n L)))))‖
+      ≤ ((2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|)))) ^ R /
+          (1 - 2 * (n : ℝ) * (1 - Real.exp (-(2 * |J|))))) ^ Lt := by
+  refine slab_law hχm hχ hz hζ hL le_rfl x (x + (R : ZMod L) • (e μ : Space n L)) 0
+    (fun γ => length_ge hL μ x hR γ)
+    (fun U : Link n L Lt → G => χ (polyakov U x) *
+        (starRingEnd ℂ) (χ (polyakov U (x + (R : ZMod L) • (e μ : Space n L))))) ?_ ?_ ?_ J hq
+  · have hv : ∀ v : Space n L, Measurable fun U : Link n L Lt → G => polyakov U v := fun v =>
+      measurable_list_prod _ _ fun i => measurable_ver _ _
+    exact (hχm.comp (hv _)).mul (Complex.continuous_conj.measurable.comp (hχm.comp (hv _)))
+  · intro U
+    rw [norm_mul, RCLike.norm_conj]
+    exact mul_le_one₀ (hχ _) (norm_nonneg _) (hχ _)
+  · intro i C U hx hy
+    simp only [polyakov]
+    rw [vline_twist_mem hz le_rfl i.2 C 0 U hx, vline_twist_not_mem C _ 0 Lt U hy, hχz]
+    ring
 
 end main
 
