@@ -4,7 +4,8 @@
 A theorem whose axiom list contains `sorryAx` is NOT proven. A clean result
 lists exactly `[propext, Classical.choice, Quot.sound]`, the three standard
 axioms of Lean's logic. This file prints the axiom dependency of every
-result in the library. It is the gate; a successful build is not.
+result in the library, and the final command fails the build if any theorem
+of the library uses any other axiom, so the build is now the gate.
 -/
 import FisherLorentz.Basic
 import FisherLorentz.Conformal
@@ -18,6 +19,8 @@ import FisherLorentz.Retention
 import FisherLorentz.SpeedLimits
 import FisherLorentz.ThirdLaw
 import FisherLorentz.ThomasWigner
+import FisherLorentz.Hemisphere
+import FisherLorentz.AxiomGate
 
 namespace FisherLorentz
 
@@ -122,4 +125,15 @@ namespace FisherLorentz
 #print axioms twTanHalf_eq
 #print axioms twTanHalf_orthogonal
 
+-- Hemisphere (classical provenance of the conformal factor)
+#print axioms hasDerivAt_height
+#print axioms round_pullback
+#print axioms buresForm_eq_quarter_hemRound
+#print axioms bkForm_eq_hemRound_div_height
+#print axioms bkForm_eq_four_gammaSq_mul_buresForm_via_hemisphere
+
 end FisherLorentz
+
+/-! The gate proper: fails the build if any theorem under `FisherLorentz`, listed above
+or not, depends on an axiom other than `propext`, `Classical.choice`, `Quot.sound`. -/
+#assert_standard_axioms_in FisherLorentz

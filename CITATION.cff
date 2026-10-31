@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this library, please cite it as below."
+title: "fisher-lorentz-formalization: Lean 4 proofs of Wilson's area law for SU(N) and of the Fisher-Lorentz identities"
+authors:
+  - family-names: Srivats
+    given-names: Bharath G.
+version: 2.0.0
+date-released: 2026-10-31
+license: Apache-2.0
+repository-code: "https://github.com/bharathsrivats/fisher-lorentz-formalization"
+keywords: [lean4, mathlib, lattice-gauge-theory, yang-mills, confinement, area-law, formal-verification, fisher-information]

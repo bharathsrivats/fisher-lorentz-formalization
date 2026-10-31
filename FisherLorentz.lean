@@ -10,4 +10,6 @@ import FisherLorentz.ThirdLaw
 import FisherLorentz.ThomasWigner
 import FisherLorentz.QuantumComputation
 import FisherLorentz.NaturalGradient
+import FisherLorentz.Hemisphere
+import FisherLorentz.AxiomGate
 import FisherLorentz.Audit

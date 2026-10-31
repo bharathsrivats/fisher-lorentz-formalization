@@ -1,5 +1,5 @@
 name = "fisherlorentz"
-defaultTargets = ["FisherLorentz"]
+defaultTargets = ["FisherLorentz", "Confinement"]
 
 [[require]]
 name = "mathlib"
@@ -8,3 +8,6 @@ rev = "v4.33.0"
 
 [[lean_lib]]
 name = "FisherLorentz"
+
+[[lean_lib]]
+name = "Confinement"

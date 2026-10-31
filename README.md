@@ -1,10 +1,72 @@
 # fisher-lorentz-formalization
 
-Machine-checked proofs, in **Lean 4 + Mathlib**, of results from the
-published and preprint corpus of **Bharath G. Srivats**.
+Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Two libraries:
 
-**77 results across twelve modules. Zero `sorry`.** Every theorem is
-verified to depend only on the three standard axioms of Lean's logic.
+- **`Confinement`: Wilson's area law for `SU(N)` lattice gauge theory**, every `N ≥ 2`, every
+  spacetime dimension `d ≥ 2`, with an explicit string tension. See the next section.
+- **`FisherLorentz`: 82 named results across thirteen modules** from the published and preprint
+  corpus.
+
+**Zero `sorry`.** The build itself fails unless every theorem, in both libraries, depends only on
+the three standard axioms of Lean's logic (388 theorems at this commit, the auxiliary lemmas
+included).
+
+## Wilson's area law, machine-checked
+
+Quark confinement on the lattice is the statement that a Wilson loop decays with the **area** it
+encloses. Here is the theorem, for the torus `(ℤ/L)ⁿ × ℤ/Lₜ` in spacetime dimension `d = n + 1`,
+the Haar measure on each link, and the weight `exp (β_W ∑ₚ Re Tr Qₚ / N)`:
+
+```lean
+theorem Confinement.area_law_SU_exp (hN : 2 ≤ N) (hL : 3 ≤ L) (hR : R ≤ L / 2) (hT : T ≤ Lt)
+    (x : Space n L) (t₀ : ZMod Lt) (μ : Fin n) (βW : ℝ)
+    (h0 : 0 < 4 * n * |βW|) (hq : 4 * n * |βW| < 1) :
+    ‖gibbs (haarSU N) normTr βW (fun U => normTr (rectangle U x t₀ μ R T))‖
+      ≤ Real.exp (Real.log (4 * n * |βW|) * (R * T) - Real.log (1 - 4 * n * |βW|) * T)
+```
+
+So for `|β_W| < 1 / (4 (d - 1))` the `R × T` loop satisfies `‖⟨Tr Q_ℓ / N⟩‖ ≤ exp (-σ R T + κ T)`,
+with string tension at least `σ = -log (4 (d - 1) |β_W|) > 0`. `area_law_general` proves the same
+for **any** group with a probability measure invariant under a central element `z` and a bounded
+function `χ` with `χ (z g) = ζ χ (g)`, `ζ ≠ 1`.
+
+**The proof** is one page and uses no analysis. Each vertical plaquette weight is a constant times
+`1 + h` with `0 ≤ h ≤ p (1 + h)`, `p = 1 - exp (-2 |β_W|)`. Expand over sets `A` of vertical
+plaquettes. If `A` does not join the two sides of the loop in some slab, multiplying the vertical
+links of that slab over one cluster by `z` preserves everything except the loop, which picks up
+`ζ ≠ 1`, so the term of `A` vanishes. The surviving `A` contain a path in every slab, and the
+pointwise bound counts them.
+
+| File | Content |
+|---|---|
+| `Confinement/Expansion.lean` | The positive expansion, abstractly: `expansion_bound` |
+| `Confinement/Lattice.lean` | Links, plaquettes, Wilson weight, Gibbs expectation, the rectangle |
+| `Confinement/GaugeInvariance.lean` | Plaquettes and the rectangle conjugate under gauge transformations, so the loop closes |
+| `Confinement/Bonds.lean` | Slab graphs, lifted paths, walk counting, displacement bound on the torus |
+| `Confinement/Twist.lean` | The centre twist and its measure invariance |
+| `Confinement/AreaLaw.lean` | `term_vanish`, `area_law_general` |
+| `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `partition_pos` |
+| `Confinement/Audit.lean` | `#print axioms` on the headline results, and the axiom gate |
+
+**How to trust it.** The definitions are the short file `Lattice.lean`. `rectangle_gauge`,
+`Qv_gauge` and `Qh_gauge` show the holonomies transform correctly, and `partition_pos` shows the
+expectation is not vacuous. A deliberate-break pass was run: a plaquette orientation slip, a loop
+that fails to close, a `sorry`, a weakened window, a halved constant in the pointwise bound, and
+dropping the hypothesis `ζ ≠ 1` each make the build fail.
+
+**Scope.** This is a strong-coupling theorem at fixed lattice spacing, on a finite torus, uniform in
+the volume. It says nothing about the continuum limit, a mass gap, or the Clay Millennium problem.
+Its window is far smaller than the best known by hand, for instance `|β_W| < 2/(d - 1)` for `SU(2)`
+in the companion note, which is not formalised here.
+
+**Is it a first?** Searches of public Lean code on 2026-10-31, with several phrasings, found
+gauge-invariance lemmas, strong-coupling mass gaps for `U(n)`
+([lgt](https://github.com/mrdouglasny/lgt)) and `U(1)` without an area law, and files whose
+"confinement" statements are placeholders. We did not find an earlier machine-checked area law for a
+non-abelian lattice gauge theory. A negative search is not a proof of absence; corrections are
+welcome.
+
+## The Fisher-Lorentz library
 
 The central identity is
 
@@ -43,7 +105,7 @@ draws on. Peer-reviewed work first, then work under review, then preprints.
    Article 7819 (2026).
    doi:[10.29020/nybg.ejpam.v19i2.7819](https://doi.org/10.29020/nybg.ejpam.v19i2.7819)
 
-### Under review
+### Submitted manuscripts (status changes and is not asserted here)
 
 5. **Srivats, B. G.** "A Modular Speed Limit on the Qubit: Bloch Precession,
    Saturation, Channel Data-Processing, and the Vanishing of Modular Flow at
@@ -70,7 +132,8 @@ draws on. Peer-reviewed work first, then work under review, then preprints.
     Criterion from the Fisher–Lorentz Identity."
     *Journal of Artificial Intelligence and Consciousness*.
 13. **Srivats, B. G.** "Discriminating Thomas–Wigner from
-    Pancharatnam–Berry Rotations." *Physica Scripta*.
+    Pancharatnam–Berry Rotations." Earlier manuscript; its discrimination claim was
+    withdrawn by the author on 2026-07-09.
 
 ### Preprints
 
@@ -177,6 +240,23 @@ Both metrics are encoded as the quadratic form they assign to a tangent
 vector `(dr, dθ, dφ)`, so the identity is quantified over **every tangent
 vector at every point**. That is what makes it a tensor statement rather than
 a statement about distances.
+
+
+### `Hemisphere.lean`: where the conformal factor comes from
+
+The factor `4γ²` is classical in substance: the Bures metric is one quarter of the
+round hemisphere metric (Uhlmann 1992; Hübner 1992), and the Beltrami-Klein metric
+is that round metric divided by the squared height (Cannon, Floyd, Kenyon, Parry,
+*Hyperbolic Geometry*, MSRI Publ. 31 (1997), §7). This module proves both facts in
+the coordinates of `Conformal.lean` and re-derives Theorem 1 from them.
+
+| Result | Lean name |
+|---|---|
+| the height `√(1−|y|²)` moves at rate `−(y·v)/√(1−|y|²)` | `hasDerivAt_height` |
+| the pull-back of the round metric is `|v|² + (y·v)²/(1−|y|²)` | `round_pullback` |
+| **Bures = one quarter of the hemisphere metric** | `buresForm_eq_quarter_hemRound` |
+| **Beltrami-Klein = hemisphere metric / height²** | `bkForm_eq_hemRound_div_height` |
+| Theorem 1 re-derived from the two | `bkForm_eq_four_gammaSq_mul_buresForm_via_hemisphere` |
 
 ### `Gudermannian.lean` — the Gudermannian bridge  *(ref 4, Theorem 2)*
 
@@ -319,6 +399,9 @@ Stated explicitly so this repository cannot be mistaken for more than it is.
   conjecture.
 - Everything in refs 14 and 16, which are synthesis and interpretation rather
   than theorem-proving documents.
+- **The `SU(2)` area law at `|β_W| < 2/(d - 1)`** of the companion note, its sharp Wasserstein bound
+  on `S³`, infinite-volume Gibbs measures, and anything about the continuum limit. The
+  `Confinement` library covers the elementary all-`N` theorem on finite tori only.
 
 No claim is made about any of these.
 
@@ -326,17 +409,27 @@ No claim is made about any of these.
 
 ## The audit gate
 
-A Lean file can compile with `sorry` in it. **Compilation is therefore not
-the gate.** `FisherLorentz/Audit.lean` runs `#print axioms` on all 77
-results; each must report exactly
+A Lean file can compile with `sorry` in it, so a successful build proves
+nothing unless the build itself checks axioms. This one does.
+
+`Confinement/Audit.lean` does the same for the confinement library (172 theorems).
+`FisherLorentz/Audit.lean` runs `#print axioms` on all 82 named results, for a
+readable record, and ends with `#assert_standard_axioms_in FisherLorentz`
+(defined in `FisherLorentz/AxiomGate.lean`). That command walks every theorem
+constant under the `FisherLorentz` namespace, including results nobody listed and
+the auxiliary lemmas Lean generates (216 at this commit), collects its axioms,
+and **fails the build** if any lies outside
 
 ```
 [propext, Classical.choice, Quot.sound]
 ```
 
-Any occurrence of `sorryAx` means the result is not proven. As of this commit
-all 77 are clean, and the source contains no `sorry`, no `axiom`, and no
-`native_decide`. CI re-runs the gate on every push.
+so `sorry` (`sorryAx`), `native_decide` (`Lean.ofReduceBool`) and any declared
+`axiom` are rejected whether or not they appear in the source text. Negative
+controls were run: a `sorry` proof, a `native_decide` proof and a custom axiom
+each fail the gate, and a clean proof passes. CI builds on every push, checks
+that both libraries' gates reported success, and keeps the older text scan for `sorry`,
+`axiom` and `native_decide` as a second line.
 
 ## Build
 
