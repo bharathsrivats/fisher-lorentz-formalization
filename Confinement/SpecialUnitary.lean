@@ -4,7 +4,7 @@ Copyright (c) 2026 Bharath G. Srivats. Released under Apache 2.0.
 `SU(N)` as a gauge group: compactness, its Haar probability measure, the normalised trace, and
 the central element `exp (2 π i / N) · 1`.
 -/
-import Confinement.AreaLaw
+import Confinement.Clustering
 import Mathlib.LinearAlgebra.UnitaryGroup
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Topology.Instances.Matrix
@@ -231,5 +231,84 @@ theorem partition_pos {n L Lt : ℕ} [NeZero L] [NeZero Lt] (N : ℕ) (hN : 0 < 
   have hconst : ∫ _U : Link n L Lt → SU N, Real.exp (-B) ∂(linkMeasure (haarSU N)) = Real.exp (-B) := by
     simp
   linarith [Real.exp_pos (-B)]
+
+/-- **Exponential clustering in Euclidean time for `SU(N)`, every `N ≥ 1`, in the closed window
+`q = 16 (2 n - 1) |β_W| < 1`.** For observables bounded by one, depending on the links of `X` and
+`Y` at time distance at least `D ≥ 1`, the connected correlation is at most
+`2 (2 n |X|) (2 n |Y|) q ^ (D - 2) / (1 - q)`, uniformly in the size of the torus. -/
+theorem clustering_SU {n L Lt : ℕ} [NeZero L] [NeZero Lt] (hN : 0 < N)
+    (f g : (Link n L Lt → SU N) → ℂ) (hfm : Measurable f) (hgm : Measurable g)
+    (hf1 : ∀ U, ‖f U‖ ≤ 1) (hg1 : ∀ U, ‖g U‖ ≤ 1)
+    (X Y : Finset (Link n L Lt))
+    (hfX : ∀ U V : Link n L Lt → SU N, (∀ l ∈ X, U l = V l) → f U = f V)
+    (hgY : ∀ U V : Link n L Lt → SU N, (∀ l ∈ Y, U l = V l) → g U = g V)
+    {D : ℕ} (hD1 : 1 ≤ D)
+    (hD : ∀ x ∈ X, ∀ y ∈ Y, D ≤ (linkTime y - linkTime x).valMinAbs.natAbs)
+    (βW : ℝ) (hq : ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|) < 1) :
+    ‖gibbs (haarSU N) normTr βW (fun U => f U * g U)
+        - gibbs (haarSU N) normTr βW f * gibbs (haarSU N) normTr βW g‖
+      ≤ 2 * (((X.card * (2 * n) : ℕ) : ℝ) * ((Y.card * (2 * n) : ℕ) : ℝ)) *
+        ((((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|)) ^ (D - 2) /
+          (1 - ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|))) := by
+  set Δ : ℝ := ((4 * (2 * n - 1) : ℕ) : ℝ) with hΔ
+  have hΔ0 : 0 ≤ Δ := Nat.cast_nonneg _
+  set p : ℝ := 1 - Real.exp (-(4 * |βW|)) with hp
+  have hp0 : 0 ≤ p := by
+    have : Real.exp (-(4 * |βW|)) ≤ 1 := Real.exp_le_one_iff.mpr (by linarith [abs_nonneg βW])
+    linarith
+  have hp1 : p ≤ 1 := by linarith [Real.exp_pos (-(4 * |βW|))]
+  have hp4 : p ≤ 4 * |βW| := by
+    have := Real.add_one_le_exp (-(4 * |βW|))
+    linarith
+  have hle : Δ * p ≤ Δ * (4 * |βW|) := mul_le_mul_of_nonneg_left hp4 hΔ0
+  have hle0 : 0 ≤ Δ * p := mul_nonneg hΔ0 hp0
+  have hq' : Δ * p < 1 := hle.trans_lt hq
+  refine (clustering_general (haarSU N) measurable_normTr (normTr_le hN) f g hfm hgm hf1 hg1 X Y
+    hfX hgY hD1 hD βW hq').trans ?_
+  refine mul_le_mul_of_nonneg_left ?_ (by positivity)
+  have hd : 0 < 1 - Δ * (4 * |βW|) := by linarith
+  have hd' : 0 < 1 - Δ * p := by linarith
+  have h1 : (Δ * p) ^ (D - 2) / (1 - Δ * p) ≤ (Δ * (4 * |βW|)) ^ (D - 2) / (1 - Δ * (4 * |βW|)) :=
+    div_le_div₀ (pow_nonneg (hle0.trans hle) _) (pow_le_pow_left₀ hle0 hle _) hd (by linarith)
+  have h2 : 0 ≤ (Δ * p) ^ (D - 2) / (1 - Δ * p) := div_nonneg (pow_nonneg hle0 _) hd'.le
+  nlinarith
+
+/-- **A mass gap in lattice units for `SU(N)`.** The connected correlation of two plaquettes at time
+distance at least `D` decays exponentially in `D`, with rate at least `m = -log q`,
+`q = 16 (2 n - 1) |β_W|`, uniformly in `N` and in the size of the torus. -/
+theorem mass_gap_plaquette_SU {n L Lt : ℕ} [NeZero L] [NeZero Lt] (hN : 0 < N)
+    (a b : Plaq n L Lt) {D : ℕ} (hD1 : 1 ≤ D)
+    (hD : ∀ x ∈ links a, ∀ y ∈ links b, D ≤ (linkTime y - linkTime x).valMinAbs.natAbs)
+    (βW : ℝ) (h0 : 0 < ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|))
+    (hq : ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|) < 1) :
+    ‖gibbs (haarSU N) normTr βW
+          (fun U : Link n L Lt → SU N => normTr (hol U a) * normTr (hol U b))
+        - gibbs (haarSU N) normTr βW (fun U : Link n L Lt → SU N => normTr (hol U a))
+          * gibbs (haarSU N) normTr βW (fun U : Link n L Lt → SU N => normTr (hol U b))‖
+      ≤ (2 * (((4 * (2 * n) : ℕ) : ℝ) * ((4 * (2 * n) : ℕ) : ℝ)) /
+            (1 - ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|))) *
+          Real.exp (((D - 2 : ℕ) : ℝ) * Real.log (((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|))) := by
+  set q : ℝ := ((4 * (2 * n - 1) : ℕ) : ℝ) * (4 * |βW|) with hqdef
+  have hmain := clustering_SU hN (fun U : Link n L Lt → SU N => normTr (hol U a))
+    (fun U => normTr (hol U b)) (measurable_normTr.comp (measurable_hol a))
+    (measurable_normTr.comp (measurable_hol b)) (fun _ => normTr_le hN _) (fun _ => normTr_le hN _)
+    (links a) (links b) (fun U V h => congrArg _ (hol_congr a h))
+    (fun U V h => congrArg _ (hol_congr b h)) hD1 hD βW hq
+  refine hmain.trans ?_
+  have hd : 0 < 1 - q := by linarith
+  have hexp : Real.exp (((D - 2 : ℕ) : ℝ) * Real.log q) = q ^ (D - 2) := by
+    rw [Real.exp_nat_mul, Real.exp_log h0]
+  rw [hexp]
+  have hca : (((links a).card * (2 * n) : ℕ) : ℝ) ≤ ((4 * (2 * n) : ℕ) : ℝ) := by
+    exact_mod_cast Nat.mul_le_mul_right _ (card_links_le a)
+  have hcb : (((links b).card * (2 * n) : ℕ) : ℝ) ≤ ((4 * (2 * n) : ℕ) : ℝ) := by
+    exact_mod_cast Nat.mul_le_mul_right _ (card_links_le b)
+  have hqp : 0 ≤ q ^ (D - 2) / (1 - q) := div_nonneg (pow_nonneg h0.le _) hd.le
+  have hprod : (((links a).card * (2 * n) : ℕ) : ℝ) * (((links b).card * (2 * n) : ℕ) : ℝ)
+      ≤ ((4 * (2 * n) : ℕ) : ℝ) * ((4 * (2 * n) : ℕ) : ℝ) :=
+    mul_le_mul hca hcb (Nat.cast_nonneg _) (Nat.cast_nonneg _)
+  calc _ ≤ 2 * (((4 * (2 * n) : ℕ) : ℝ) * ((4 * (2 * n) : ℕ) : ℝ)) * (q ^ (D - 2) / (1 - q)) :=
+        mul_le_mul_of_nonneg_right (by linarith) hqp
+    _ = _ := by ring
 
 end Confinement

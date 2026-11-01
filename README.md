@@ -2,13 +2,17 @@
 
 Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Two libraries:
 
-- **`Confinement`: Wilson's area law for `SU(N)` lattice gauge theory**, every `N ≥ 2`, every
-  spacetime dimension `d ≥ 2`, with an explicit string tension. See the next section.
+- **`Confinement`: Wilson's area law and a lattice mass gap for `SU(N)`**, every `N ≥ 2`, every
+  spacetime dimension `d ≥ 2`, with an explicit string tension and an explicit rate. See the next
+  section.
 - **`FisherLorentz`: 82 named results across thirteen modules** from the published and preprint
   corpus.
+- **`YMStatement`, `YMReview`: a prototype Lean statement of the Yang-Mills problem**, with anti-toy
+  lemmas and the known weakness a review found. It is a formulation, not the Clay problem. See
+  below.
 
 **Zero `sorry`.** The build itself fails unless every theorem, in both libraries, depends only on
-the three standard axioms of Lean's logic (393 theorems at this commit, the auxiliary lemmas
+the three standard axioms of Lean's logic (631 theorems at this commit, the auxiliary lemmas
 included).
 
 ## Wilson's area law, machine-checked
@@ -47,26 +51,63 @@ pointwise bound counts them.
 | `Confinement/Bonds.lean` | Slab graphs, lifted paths, walk counting, displacement bound on the torus |
 | `Confinement/Twist.lean` | The centre twist and its measure invariance |
 | `Confinement/AreaLaw.lean` | `term_vanish_general`, `slab_law`, `area_law_general`, `polyakov_general` |
-| `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `polyakov_SU`, `partition_pos` |
+| `Confinement/Clustering.lean` | Plaquette graph, two copies, exchange: `term_vanish_swap`, `clustering_general` |
+| `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `polyakov_SU`, `clustering_SU`, `mass_gap_plaquette_SU`, `partition_pos` |
 | `Confinement/Audit.lean` | `#print axioms` on the headline results, and the axiom gate |
+
+**The mass gap.** `mass_gap_plaquette_SU`: for `0 < q := 16 (2 n - 1) |β_W| < 1`, the connected
+correlation of two plaquette traces at time distance at least `D` is at most
+`C exp (-m (D - 2))`, with `m = -log q`, uniformly in the volume. `clustering_general` proves the
+same shape for **any** group, any probability measure on links and any bounded local observables,
+with no centre needed: write `Cov(f, g) = ½ E[(f - f')(g - g')]` on two independent copies, expand
+all plaquettes, and exchange the copies on the cluster of the support of `f`. If the expansion
+does not join the two supports, the term changes sign, so it vanishes. This is a statement about
+correlations. Turning it into a spectral gap of the transfer matrix needs reflection positivity,
+which is not formalised.
 
 **How to trust it.** The definitions are the short file `Lattice.lean`. `rectangle_gauge`,
 `Qv_gauge` and `Qh_gauge` show the holonomies transform correctly, and `partition_pos` shows the
 expectation is not vacuous. A deliberate-break pass was run: a plaquette orientation slip, a loop
-that fails to close, a `sorry`, a weakened window, a halved constant in the pointwise bound, and
-dropping the hypothesis `ζ ≠ 1` each make the build fail.
+that fails to close, a plaquette missing a link, a weakened window, halved constants in the
+pointwise bounds, wrong degree and incidence counts, and dropped hypotheses each make the build
+fail, and a planted `sorry` trips the gate.
 
-**Scope.** This is a strong-coupling theorem at fixed lattice spacing, on a finite torus, uniform in
-the volume. It says nothing about the continuum limit, a mass gap, or the Clay Millennium problem.
+**Scope.** These are strong-coupling theorems at fixed lattice spacing, on finite tori, uniform in
+the volume. They say nothing about the continuum limit, a mass gap in physical units, or the Clay
+Millennium problem.
 Its window is far smaller than the best known by hand, for instance `|β_W| < 2/(d - 1)` for `SU(2)`
 in the companion note, which is not formalised here.
 
-**Is it a first?** Searches of public Lean code on 2026-10-31, with several phrasings, found
-gauge-invariance lemmas, strong-coupling mass gaps for `U(n)`
-([lgt](https://github.com/mrdouglasny/lgt)) and `U(1)` without an area law, and files whose
-"confinement" statements are placeholders. We did not find an earlier machine-checked area law for a
-non-abelian lattice gauge theory. A negative search is not a proof of absence; corrections are
-welcome.
+**Prior work.** This is **not** the first machine-checked area law. L. Eriksson's
+[THE-ERIKSSON-PROGRAMME](https://github.com/lluiseriksson/THE-ERIKSSON-PROGRAMME) has a Lean 4 proof
+of a volume-uniform Wilson-loop area law for `SU(N)` (paper dated 2 July 2026), by a formalized
+cluster expansion, with the standard three axioms. [lgt](https://github.com/mrdouglasny/lgt) has a
+Lean strong-coupling mass gap for `U(n)`, and
+[consensusframework/yang-mills-mass-gap](https://github.com/consensusframework/yang-mills-mass-gap)
+and A. Novickis (Zenodo record 20547676) have related results. What this library adds is a much
+shorter route with no cluster expansion, any gauge group with a nontrivial central character, an
+explicit `R × T` rectangle with a closed-form string tension, Polyakov correlators at every temporal
+extent, and a far larger window: at `d = 4` the hypotheses of `normalized_exp_wilson_loop_area_law`
+force `β_W < 5.6 × 10⁻⁸`, against `1/12` here. An earlier version of this README said searches had
+found no earlier machine-checked area law. That search missed Eriksson's work.
+
+## A prototype statement of the Yang-Mills problem
+
+`YMStatement.YangMillsExistenceAndMassGap : Prop` asks, for every compact simple gauge group, for
+Schwinger functions of `Tr F²` that are a continuum limit of renormalised Wilson lattice
+expectations, satisfy the Osterwalder-Schrader axioms, have the leading-log short-distance profile,
+and have finite mass and a Euclidean gap. It uses no `opaque`, `axiom` or `sorry`, and it comes with
+anti-toy lemmas (trivial theory, spatially invariant models, abelian groups, free-field kernels) and
+`SO(3)` as a compact simple instance.
+
+**Read this before using it.** It is a formulation and **not** equivalent to the Clay problem in
+either direction: it is weaker in field content and stronger in fixing the Wilson route. A review
+found that a generalised free field with spectral density `s² / log² s` appears to meet every clause
+except the lattice clause, so all gauge-theoretic content comes from that clause alone
+(`YMReview/GFFEscape.lean` checks the kernel-level part; the Osterwalder-Schrader and gap clauses for
+that field are not checked in Lean). `IsInvariantAlong` ranges over test functions it should not.
+It has not been proposed to any statement collection. Nothing here proves anything about the
+problem.
 
 ## The Fisher-Lorentz library
 
@@ -414,7 +455,8 @@ No claim is made about any of these.
 A Lean file can compile with `sorry` in it, so a successful build proves
 nothing unless the build itself checks axioms. This one does.
 
-`Confinement/Audit.lean` does the same for the confinement library (177 theorems).
+`Confinement/Audit.lean`, `YMStatement/Audit.lean` and `YMReview/AuditReview.lean` do the same for
+their libraries.
 `FisherLorentz/Audit.lean` runs `#print axioms` on all 82 named results, for a
 readable record, and ends with `#assert_standard_axioms_in FisherLorentz`
 (defined in `FisherLorentz/AxiomGate.lean`). That command walks every theorem
@@ -430,7 +472,7 @@ so `sorry` (`sorryAx`), `native_decide` (`Lean.ofReduceBool`) and any declared
 `axiom` are rejected whether or not they appear in the source text. Negative
 controls were run: a `sorry` proof, a `native_decide` proof and a custom axiom
 each fail the gate, and a clean proof passes. CI builds on every push, checks
-that both libraries' gates reported success, and keeps the older text scan for `sorry`,
+that all four gates reported success, and keeps the older text scan for `sorry`,
 `axiom` and `native_decide` as a second line.
 
 ## Build

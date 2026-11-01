@@ -19,6 +19,11 @@ import FisherLorentz.AxiomGate
 #print axioms Confinement.area_law_SU_window
 #print axioms Confinement.area_law_SU_exp
 #print axioms Confinement.partition_pos
+#print axioms Confinement.term_vanish_swap
+#print axioms Confinement.clustering_general
+#print axioms Confinement.clustering_SU
+#print axioms Confinement.mass_gap_plaquette_SU
+#print axioms Confinement.partition_pos_general
 #print axioms Confinement.rectangle_gauge
 #print axioms Confinement.Qv_gauge
 #print axioms Confinement.Qh_gauge

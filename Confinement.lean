@@ -4,5 +4,6 @@ import Confinement.GaugeInvariance
 import Confinement.Bonds
 import Confinement.Twist
 import Confinement.AreaLaw
+import Confinement.Clustering
 import Confinement.SpecialUnitary
 import Confinement.Audit

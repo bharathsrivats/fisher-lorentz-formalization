@@ -1,5 +1,5 @@
 name = "fisherlorentz"
-defaultTargets = ["FisherLorentz", "Confinement"]
+defaultTargets = ["FisherLorentz", "Confinement", "YMStatement", "YMReview"]
 
 [[require]]
 name = "mathlib"
@@ -11,3 +11,9 @@ name = "FisherLorentz"
 
 [[lean_lib]]
 name = "Confinement"
+
+[[lean_lib]]
+name = "YMStatement"
+
+[[lean_lib]]
+name = "YMReview"
