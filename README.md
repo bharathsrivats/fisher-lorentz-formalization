@@ -1,18 +1,18 @@
 # fisher-lorentz-formalization
 
-Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Two libraries:
+Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Four libraries:
 
-- **`Confinement`: Wilson's area law and a lattice mass gap for `SU(N)`**, every `N ≥ 2`, every
-  spacetime dimension `d ≥ 2`, with an explicit string tension and an explicit rate. See the next
-  section.
+- **`Confinement`: Wilson's area law and exponential clustering at strong coupling, with no
+  cluster expansion**, for `SU(N)`, every `N ≥ 2`, and other gauge groups, in every spacetime
+  dimension `d ≥ 2`, with an explicit string tension and an explicit rate. See the next section.
 - **`FisherLorentz`: 82 named results across thirteen modules** from the published and preprint
   corpus.
 - **`YMStatement`, `YMReview`: a prototype Lean statement of the Yang-Mills problem**, with anti-toy
   lemmas and the known weakness a review found. It is a formulation, not the Clay problem. See
   below.
 
-**Zero `sorry`.** The build itself fails unless every theorem, in both libraries, depends only on
-the three standard axioms of Lean's logic (631 theorems at this commit, the auxiliary lemmas
+**Zero `sorry`.** The build itself fails unless every theorem, in all four libraries, depends only on
+the three standard axioms of Lean's logic (651 theorems at this commit, the auxiliary lemmas
 included).
 
 ## Wilson's area law, machine-checked
@@ -36,7 +36,7 @@ function `χ` with `χ (z g) = ζ χ (g)`, `ζ ≠ 1`.
 
 `polyakov_SU` gives the same decay for Polyakov loop correlators at **every temporal extent** `Lₜ`, so the window contains no deconfined phase at any temperature.
 
-**The proof** is one page and uses no analysis. Each vertical plaquette weight is a constant times
+**The proof** is one page and uses no cluster expansion. Each vertical plaquette weight is a constant times
 `1 + h` with `0 ≤ h ≤ p (1 + h)`, `p = 1 - exp (-2 |β_W|)`. Expand over sets `A` of vertical
 plaquettes. If `A` does not join the two sides of the loop in some slab, multiplying the vertical
 links of that slab over one cluster by `z` preserves everything except the loop, which picks up
@@ -53,6 +53,7 @@ pointwise bound counts them.
 | `Confinement/AreaLaw.lean` | `term_vanish_general`, `slab_law`, `area_law_general`, `polyakov_general` |
 | `Confinement/Clustering.lean` | Plaquette graph, two copies, exchange: `term_vanish_swap`, `clustering_general` |
 | `Confinement/SpecialUnitary.lean` | `SU(N)`: compactness, Haar measure, centre; `area_law_SU`, `area_law_SU_window`, `area_law_SU_exp`, `polyakov_SU`, `clustering_SU`, `mass_gap_plaquette_SU`, `partition_pos` |
+| `Confinement/Instances.lean` | `area_law_compact` for any compact group with a detected centre; `area_law_U1`, `area_law_Z2` |
 | `Confinement/Audit.lean` | `#print axioms` on the headline results, and the axiom gate |
 
 **The mass gap.** `mass_gap_plaquette_SU`: for `0 < q := 16 (2 n - 1) |β_W| < 1`, the connected
