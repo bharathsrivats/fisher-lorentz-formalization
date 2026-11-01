@@ -169,9 +169,10 @@ draws on. Peer-reviewed work first, then work under review, then preprints.
 10. **Srivats, B. G.** "An Information-Geometric Identity for the
     Wright–Fisher Diffusion: Genetic Drift as Inverse Fisher Information on
     the Allele-Frequency Manifold." *Theory in Biosciences*.
-11. **Srivats, B. G.** "Thermodynamic Consequences of the Identity
-    I(V) = γ²: A Cooling-Cost Divergence Theorem and a Falsifiable
-    Entropy–Visibility Law."
+11. **Srivats, B. G.** "Three laws for a thermalizing qubit in the visibility
+    coordinate: exact dissipation and an iterated-logarithm cost of approaching the
+    ground state." Preprint, 2026. An earlier manuscript, whose second and third results
+    rested on a false identity, is withdrawn.
 12. **Srivats, B. G.** "Why Current AI Cannot Be Conscious: A Thermodynamic
     Criterion from the Fisher–Lorentz Identity."
     *Journal of Artificial Intelligence and Consciousness*.
