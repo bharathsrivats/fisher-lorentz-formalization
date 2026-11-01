@@ -6,4 +6,5 @@ import Confinement.Twist
 import Confinement.AreaLaw
 import Confinement.Clustering
 import Confinement.SpecialUnitary
+import Confinement.Instances
 import Confinement.Audit

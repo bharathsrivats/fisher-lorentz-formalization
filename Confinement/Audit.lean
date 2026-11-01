@@ -6,7 +6,7 @@ on anything beyond `propext`, `Classical.choice` and `Quot.sound`.
 -/
 import Confinement.AreaLaw
 import Confinement.GaugeInvariance
-import Confinement.SpecialUnitary
+import Confinement.Instances
 import FisherLorentz.AxiomGate
 
 #print axioms Confinement.expansion_bound
@@ -19,6 +19,9 @@ import FisherLorentz.AxiomGate
 #print axioms Confinement.area_law_SU_window
 #print axioms Confinement.area_law_SU_exp
 #print axioms Confinement.partition_pos
+#print axioms Confinement.area_law_compact
+#print axioms Confinement.area_law_U1
+#print axioms Confinement.area_law_Z2
 #print axioms Confinement.term_vanish_swap
 #print axioms Confinement.clustering_general
 #print axioms Confinement.clustering_SU
