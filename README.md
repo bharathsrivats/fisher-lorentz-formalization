@@ -5,14 +5,14 @@ Machine-checked proofs, in **Lean 4 + Mathlib**, by **Bharath G. Srivats**. Four
 - **`Confinement`: Wilson's area law and exponential clustering at strong coupling, with no
   cluster expansion**, for `SU(N)`, every `N ≥ 2`, and other gauge groups, in every spacetime
   dimension `d ≥ 2`, with an explicit string tension and an explicit rate. See the next section.
-- **`FisherLorentz`: 82 named results across thirteen modules** from the published and preprint
+- **`FisherLorentz`: 91 named results across fourteen modules** from the published and preprint
   corpus.
 - **`YMStatement`, `YMReview`: a prototype Lean statement of the Yang-Mills problem**, with anti-toy
   lemmas and the known weakness a review found. It is a formulation, not the Clay problem. See
   below.
 
 **Zero `sorry`.** The build itself fails unless every theorem, in all four libraries, depends only on
-the three standard axioms of Lean's logic (651 theorems at this commit, the auxiliary lemmas
+the three standard axioms of Lean's logic (664 theorems at this commit, the auxiliary lemmas
 included).
 
 ## Wilson's area law, machine-checked
@@ -365,7 +365,11 @@ weight, and the weight is proven here.
 | floor `= (ln 2)²` in units of `kT` | `planckian_floor` |
 | `c(1−V²) = c/γ²(V)`, the two forms of the bound | `energyPrecision_forms` |
 
-### `ThirdLaw.lean` — the cooling-cost divergence  *(ref 11, Theorem 1)*
+### `StepEquilibration.lean` — a qubit reset by gap quenches
+
+The entropy produced in a step, exactly (`relEntropyV_eq`); the one-step reset, `log γ(V)` (`relEntropyV_zero`); the three-point identity (`klBern_three_point`); a quench as an Einstein addition (`relEntropyV_einsteinAdd`); the energy balance (`first_law`); and the bound `L² / (2N)` for every increasing schedule of `N` steps (`stepEntropy_ge`, `sum_stepEntropy_ge`).
+
+### `ThirdLaw.lean` — the cooling-cost divergence
 
 | Result | Lean name |
 |---|---|
@@ -458,11 +462,11 @@ nothing unless the build itself checks axioms. This one does.
 
 `Confinement/Audit.lean`, `YMStatement/Audit.lean` and `YMReview/AuditReview.lean` do the same for
 their libraries.
-`FisherLorentz/Audit.lean` runs `#print axioms` on all 82 named results, for a
+`FisherLorentz/Audit.lean` runs `#print axioms` on all 91 named results, for a
 readable record, and ends with `#assert_standard_axioms_in FisherLorentz`
 (defined in `FisherLorentz/AxiomGate.lean`). That command walks every theorem
 constant under the `FisherLorentz` namespace, including results nobody listed and
-the auxiliary lemmas Lean generates (216 at this commit), collects its axioms,
+the auxiliary lemmas Lean generates (229 at this commit), collects its axioms,
 and **fails the build** if any lies outside
 
 ```

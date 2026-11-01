@@ -1,14 +1,12 @@
 /-
 # The cooling-cost divergence
 
-Formalises B. G. Srivats, "Thermodynamic Consequences of the Identity
-I(V) = γ²" (under review), Theorem 1.
-
 Cooling to ground-state fidelity `F = 1 − ε` places the state at Bloch
 radius `r = 1 − 2ε`. The Beltrami-Klein radial distance from the centre
 diverges as `ε → 0`, while the Bures radial distance stays bounded by `π/4`.
-The pure state is at finite statistical distance and infinite thermodynamic
-distance.
+The first distance is the rapidity, half the required gap in units of `kT`,
+and the second is half the thermodynamic length. See `StepEquilibration`
+for the entropy produced.
 -/
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse
 import Mathlib.Analysis.SpecialFunctions.Artanh

@@ -18,6 +18,7 @@ import FisherLorentz.QuantumComputation
 import FisherLorentz.Retention
 import FisherLorentz.SpeedLimits
 import FisherLorentz.ThirdLaw
+import FisherLorentz.StepEquilibration
 import FisherLorentz.ThomasWigner
 import FisherLorentz.Hemisphere
 import FisherLorentz.AxiomGate
@@ -136,4 +137,14 @@ end FisherLorentz
 
 /-! The gate proper: fails the build if any theorem under `FisherLorentz`, listed above
 or not, depends on an axiom other than `propext`, `Classical.choice`, `Quot.sound`. -/
+#print axioms FisherLorentz.relEntropyV_eq
+#print axioms FisherLorentz.relEntropyV_zero
+#print axioms FisherLorentz.relEntropyV_zero_error
+#print axioms FisherLorentz.klBern_three_point
+#print axioms FisherLorentz.relEntropyV_einsteinAdd
+#print axioms FisherLorentz.first_law
+#print axioms FisherLorentz.stepEntropy_ge
+#print axioms FisherLorentz.sum_stepEntropy_ge
+#print axioms FisherLorentz.relEntropyV_tanh
+
 #assert_standard_axioms_in FisherLorentz

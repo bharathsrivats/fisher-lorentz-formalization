@@ -7,6 +7,7 @@ import FisherLorentz.Identities
 import FisherLorentz.Retention
 import FisherLorentz.SpeedLimits
 import FisherLorentz.ThirdLaw
+import FisherLorentz.StepEquilibration
 import FisherLorentz.ThomasWigner
 import FisherLorentz.QuantumComputation
 import FisherLorentz.NaturalGradient
