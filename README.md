@@ -56,7 +56,7 @@ pointwise bound counts them.
 | `Confinement/Instances.lean` | `area_law_compact` for any compact group with a detected centre; `area_law_U1`, `area_law_Z2` |
 | `Confinement/Audit.lean` | `#print axioms` on the headline results, and the axiom gate |
 
-**The mass gap.** `mass_gap_plaquette_SU`: for `0 < q := 16 (2 n - 1) |β_W| < 1`, the connected
+**Exponential clustering.** `mass_gap_plaquette_SU`: for `0 < q := 16 (2 n - 1) |β_W| < 1`, the connected
 correlation of two plaquette traces at time distance at least `D` is at most
 `C exp (-m (D - 2))`, with `m = -log q`, uniformly in the volume. `clustering_general` proves the
 same shape for **any** group, any probability measure on links and any bounded local observables,
